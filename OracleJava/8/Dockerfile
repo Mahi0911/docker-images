@@ -18,10 +18,10 @@
 # Run:
 #      $ docker build -t oracle/serverjre:8 .
 #
-# This command is already scripted on build.sh so you can alternatively run
+# This command is already scripted in build.sh so you can alternatively run
 #		$ bash build.sh
 #
-# The builder image will be use to uncompress the tar.gz file with the Java Runtime.
+# The builder image will be used to uncompress the tar.gz file with the Java Runtime.
 
 FROM oraclelinux:7-slim as builder
 
@@ -42,8 +42,8 @@ ENV LANG en_US.UTF-8
 # Environment variables for the builder image.  
 # Required to validate that you are using the correct file
 
-ENV JAVA_PKG=server-jre-8u261-linux-x64.tar.gz \
-	JAVA_SHA256=970eec4e5212721d5c8f9f52a5ab89b776884dc3c886bfbe010973d30114ffa9 \
+ENV JAVA_PKG=server-jre-8u271-linux-x64.tar.gz \
+	JAVA_SHA256=c4150bbbf6d7eec7dca1d522d4c7f4da12a592206cf8b30ef4902f8a011f8a4a \
 	JAVA_HOME=/usr/java/jdk-8
 
 COPY $JAVA_PKG /tmp/jdk.tgz
@@ -60,7 +60,7 @@ FROM oraclelinux:7-slim
 # Default to UTF-8 file.encoding
 ENV LANG en_US.UTF-8
 
-ENV JAVA_VERSION=1.8.0_261 \
+ENV JAVA_VERSION=1.8.0_271 \
 	JAVA_HOME=/usr/java/jdk-8 
 	
 ENV	PATH $JAVA_HOME/bin:$PATH
