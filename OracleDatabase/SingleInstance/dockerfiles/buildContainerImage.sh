@@ -185,13 +185,14 @@ fi;
 IMAGE_NAME="oracle/database:${VERSION}-${EDITION}"
 
 # Go into version folder
-if [ ${VERSION//./} -gt ${LATEST_RELEASE//./} ];then
+if [ ${VERSION//./} -gt ${LATEST_RELEASE//./} ]; then
   cd "internal_releases";
   BUILD_OPTS=("--build-arg" "MAJOR_VERSION=$(echo ${VERSION} | cut -d. -f1)" "${BUILD_OPTS[@]}");
 else  cd "${VERSION}" || {
   echo "Could not find version directory '${VERSION}'";
   exit 1;
 }
+fi
 
 if [ ! "${SKIPMD5}" -eq 1 ]; then
   checksumPackages
