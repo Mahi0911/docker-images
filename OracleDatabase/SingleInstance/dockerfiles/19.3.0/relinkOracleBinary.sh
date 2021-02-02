@@ -10,7 +10,13 @@
 # DO NOT ALTER OR REMOVE COPYRIGHT NOTICES OR THIS HEADER.
 #
 
-LIB_EDITION="$(/usr/bin/ar t $ORACLE_HOME/lib/libedtn$($ORACLE_HOME/bin/oraversion -majorVersion).a)"
+major_version=$(${ORACLE_HOME}/bin/oraversion -majorVersion)
+LIB_EDITION="/usr/bin/ar t ${ORACLE_HOME}/lib/libedtn"
+if [ ${major_version} -gt 20 ]; then
+    LIB_EDITION=$(${LIB_EDITION}.a)
+else
+    LIB_EDITION=$(${LIB_EDITION}${major_version}.a)
+fi
 LIB_EDITION=$(echo ${LIB_EDITION} | cut -d. -f1)
 LIB_EDITION=${LIB_EDITION: -3}
 
