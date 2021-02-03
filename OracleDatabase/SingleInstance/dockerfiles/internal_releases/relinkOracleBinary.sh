@@ -12,7 +12,7 @@
 
 major_version=$(${ORACLE_HOME}/bin/oraversion -majorVersion)
 LIB_EDITION="/usr/bin/ar t ${ORACLE_HOME}/lib/libedtn"
-if [ ${major_version} -gt 20 ]; then
+if [ ${major_version} -gt 19 ]; then
     LIB_EDITION=$(${LIB_EDITION}.a)
 else
     LIB_EDITION=$(${LIB_EDITION}${major_version}.a)
