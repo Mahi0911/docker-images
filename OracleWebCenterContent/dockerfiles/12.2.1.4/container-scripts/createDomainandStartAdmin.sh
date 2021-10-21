@@ -73,16 +73,16 @@ echo ""
 
 # Persistence volume location mapped to this location will need permission fixup
 if [ -d $CONTAINERCONFIG_DIR ]; then
-    chown -R oracle:oracle $CONTAINERCONFIG_DOMAIN_DIR
-    chown -R oracle:oracle $CONTAINERCONFIG_DIR
-    chown -R oracle:oracle $CONTAINERCONFIG_LOG_DIR
+    chown -R oracle:root $CONTAINERCONFIG_DOMAIN_DIR
+    chown -R oracle:root $CONTAINERCONFIG_DIR
+    chown -R oracle:root $CONTAINERCONFIG_LOG_DIR
 else
     mkdir -p $CONTAINERCONFIG_DIR
     mkdir -p $CONTAINERCONFIG_LOG_DIR
     mkdir -p $CONTAINERCONFIG_DOMAIN_DIR
-    chown -R oracle:oracle $CONTAINERCONFIG_DOMAIN_DIR
-    chown -R oracle:oracle $CONTAINERCONFIG_DIR
-    chown -R oracle:oracle $CONTAINERCONFIG_LOG_DIR
+    chown -R oracle:root $CONTAINERCONFIG_DOMAIN_DIR
+    chown -R oracle:root $CONTAINERCONFIG_DIR
+    chown -R oracle:root $CONTAINERCONFIG_LOG_DIR
 fi
 
 echo ""
@@ -105,6 +105,11 @@ if [ $retval -ne 0 ];
     exit 1
 fi
 
+#component
+export isIPM="false"
+export isCAPTURE="false"
+export isADFUI="false" 
+
 #delimited code
 IFS=',' read -r -a cmp <<< "$component"
 
@@ -118,17 +123,24 @@ do
    
    if [ "${i^^}" == "IPM" ]
    then
-     echo "Call IPM Implementation"
+     isIPM="true" 
+     echo "Extending domain with WebCenter Imaging"
+     sh /$vol_name/oracle/container-scripts/extendWithIPMDomain.sh
    fi
 
    if [ "${i^^}" == "CAPTURE" ]
    then
-     echo "Not yet Implemented"
+     isCAPTURE="true"
+     echo "Extending domain with WebCenter Capture"
+     sh /$vol_name/oracle/container-scripts/extendWithCaptureDomain.sh
+     
    fi
 
   if [ "${i^^}" == "ADFUI" ]
    then
-     echo "Not yet Implemented"
+     isADFUI="true"
+     echo "Extending domain with WebCenter ADFUI"
+     sh /$vol_name/oracle/container-scripts/extendWithWCCADFDomain.sh
    fi
 done
 fi
